@@ -1,0 +1,36 @@
+<div th:fragment="tabela-funcionario(funcionarios)" class="table-responsive">
+    <h3>Lista de Tarefas:</h3>
+    <table class="table table-striped table-bordered table-hover ">
+        <thead class="thead-dark">
+        <tr>
+            <th>Nome</th>
+            <th>Idade</th>
+            <th>Email</th>
+            <th>Equipe</th>
+            <th>Ativo</th>
+            <th>Privilégio</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr th:each="funcionario : ${funcionarios}">
+                <td data-label="Nome" th:utext="${funcionario.nome}">Pedro</td>
+                <td data-label="Idade" th:utext="${funcionario.idade}">24</td>
+                <td	data-label="Email" th:utext="${funcionario.email}">pedro@gemail.com</td>
+                <td	data-label="Equipe" th:utext="${funcionario.equipe}">HB20</td>
+                <td	data-label="Ativo" th:utext="${funcionario.ativo}">True</td>
+                <td data-label="Privilegio" th:utext="${funcionario.privilegio}">ADMIN</td>
+                <td data-label="Editar" class="row">
+                    <button type="button" class="btn btn-danger btn-xs btn-block btn-active col-md-6" >
+                        <i	class="fa fa-trash"	style="cursor: pointer"></i>
+                    </button>
+                    <button type="button" class="btn btn-primary btn-xs btn-block btn-active col-md-6" >
+                        <i class="fa fa-pencil-square-o" aria-hidden="true" style="cursor: pointer"></i>
+                    </button>
+                </td>
+            </tr>
+            <tr th:if="${funcionarios.empty}">
+                <td	colspan="8"	class="bg-danger">Nenhum tarefa cadastrado.</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

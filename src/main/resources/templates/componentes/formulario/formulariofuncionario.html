@@ -1,0 +1,54 @@
+<div th:fragment="formulario_funcionario">
+    <h3>Novo Funcionário:</h3>
+    <form th:action="@{/salvaFuncionario}" method="post">
+        <div class="row">
+            <div class="form-group col-md-6 nopadding">
+                <label for="inputNome">Nome</label>
+                <input type="text" class="form-control" id="inputNome" placeholder="Nome" name="nome">
+            </div>
+            <div class="form-group col-md-6 nopadding">
+                <label for="inputAssunto">Senha</label>
+                <input type="password" class="form-control" id="inputAssunto" placeholder="Senha" name="senha">
+            </div>
+            <div class="form-group col-md-2">
+                <label for="inputIdade">Idade</label>
+                <input type="number" class="form-control" id="inputIdade" placeholder="Idade" name="idade">
+            </div>
+            <div class="form-group col-md-10 nopadding">
+                <label for="inputEmail">Email</label>
+                <input type="email" class="form-control" id="inputEmail" placeholder="Email" name="email">
+            </div>
+            <div class="form-group col-md-6 nopadding">
+                <label for="inputNome">Equipe</label>
+                <input type="text" class="form-control" id="inputEquipe" placeholder="Equipe" name="equipe">
+            </div>
+
+            <div class="form-group col-md-6 nopadding">
+                <label for="inputFuncao">Função</label>
+                <input type="text" class="form-control" id="inputFuncao" placeholder="Função" name="funcao">
+            </div>
+
+            <div class="form-group col-md-6 nopadding">
+                <label for="inputAtivo">Ativo</label>
+                <input list="ativoEnum" class="form-control" id="inputAtivo" placeholder="Ativo" name="ativo">
+                <datalist id="ativoEnum">
+                    <option value="true">
+                    <option value="false">
+                </datalist>
+            </div>
+
+            <div class="form-group col-md-6 nopadding">
+                <label for="inputPrivilegio">Ativo</label>
+                <input list="privilegioEnum" class="form-control" id="inputPrivilegio" placeholder="Ativo" nome="privilegio">
+                <datalist id="privilegioEnum">
+                    <option value="ADM">
+                    <option value="COMUM">
+                </datalist>
+            </div>
+
+            <div class="form-group col-md-4 nopadding">
+                <button type="submit" class="btn btn-primary">Criar Funcionario</button>
+            </div>
+        </div>
+    </form>
+</div>

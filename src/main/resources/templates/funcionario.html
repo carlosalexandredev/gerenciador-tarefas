@@ -1,0 +1,31 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link href="../static/css/index.css" th:href="@{/css/index.css}" rel="stylesheet"/>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+<title>Painel de Tarefas</title>
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+<body class="home">
+    <div class="container-fluid display-table">
+        <div class="row display-table-row">
+            <div class="col-md-2 col-sm-1 hidden-xs display-table-cell v-align box" id="navigation">
+                <div class="logo">
+                    <a hef="home.html"><img src="https://pngimage.net/wp-content/uploads/2018/05/cubo-azul-png.png" alt="merkery_logo" class="hidden-xs hidden-sm">
+                        <img src="https://pngimage.net/wp-content/uploads/2018/05/cubo-azul-png.png" alt="merkery_logo" class="visible-xs visible-sm circle-logo">
+                    </a>
+                </div>
+                <div class="navi">
+                    <ul>
+                        <li class="active"><a th:href="@{/funcionario}"><i class="fa fa-list-alt" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Tarefas</span></a></li>
+                        <li style="background-color: #a12323"><a th:href="@{/logout}"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Sair</span></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="user-dashboard">
+                <h1>Bem vindo, <p th:utext="#{usuario.nome}"></p></h1>
+                <th:block th:include="componentes/tabela/tabela-tarefa :: tabela"></th:block>
+            </div>
+        </div>
+    </div>
+</body>

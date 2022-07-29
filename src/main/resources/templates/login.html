@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <th:block th:include="componentes/cabecalho.html :: cabecalho('::: Login :::')"></th:block>
+    <link href="../static/css/login.css" th:href="@{/css/login.css}" rel="stylesheet"/>
+</head>
+    <body>
+        <form th:action="@{/login}" method="post">
+            <h3>Login</h3>
+
+            <label>Nome</label>
+            <input type="text" placeholder="Nome" name="username">
+
+            <label>Senha</label>
+            <input type="password" placeholder="Senha" name="password">
+
+            <button type="submit">Acessar</button>
+        </form>
+
+        <div th:if="${param.error}">
+            <div class="alert alert-primary position-absolute top-0 end-0 mr-3 mt-3"  role="alert">
+                Senha ou usuário inválido!
+            </div>
+        </div>
+
+        <div th:if="${param.logout}">
+            <div class="alert alert-primary position-absolute top-0 end-0 translate-middle mr-3 mt-3" role="alert">
+                Realize o Login de acesso!
+            </div>
+        </div>
+
+    </body>
+</html>

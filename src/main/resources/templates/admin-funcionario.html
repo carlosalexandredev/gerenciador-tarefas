@@ -1,0 +1,211 @@
+<html xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<title>Painel de Funcionários</title>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link href="../static/css/index.css" th:href="@{/css/index.css}" rel="stylesheet"/>
+
+<script src="https://code.jquery.com/jquery.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+
+
+<!------ Include the above in your HEAD tag ---------->
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+<body class="home">
+
+<div class="container-fluid display-table">
+    <div class="row display-table-row">
+        <div class="col-md-2 col-sm-1 hidden-xs display-table-cell v-align box" id="navigation">
+            <div class="logo">
+                <a hef="home.html"><img src="https://pngimage.net/wp-content/uploads/2018/05/cubo-azul-png.png" alt="merkery_logo" class="hidden-xs hidden-sm">
+                    <img src="https://pngimage.net/wp-content/uploads/2018/05/cubo-azul-png.png" alt="merkery_logo" class="visible-xs visible-sm circle-logo">
+                </a>
+            </div>
+            <div class="navi">
+                <ul>
+                    <li class="active"><a th:href="@{/admin-tarefas}"><i class="fa fa-list-alt" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Tarefas</span></a></li>
+                    <li><a th:href="@{/admin-funcionario}"><i class="fa fa-users" aria-hidden="true"></i></i><span class="hidden-xs hidden-sm">Funcionários</span></a></li>
+                    <li><a th:href="@{/funcionario}"><i class="fa fa-eye" aria-hidden="true"></i></i><span class="hidden-xs hidden-sm">Visão Funcionário</span></a></li>
+                    <li style="background-color: #a12323"><a th:href="@{/logout}"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Sair</span></a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="user-dashboard">
+            <h1>Bem vindo</h1>
+            <h3>Novo Funcionário:</h3>
+            <form th:action="@{/salva-funcionario}" th:object="${funcionario}" method="post">
+                <div class="row">
+                    <div class="form-group col-md-6 nopadding">
+                        <label for="inputNome">Nome</label>
+                        <input type="text" class="form-control" id="inputNome" placeholder="Nome" name="nome">
+                    </div>
+                    <div class="form-group col-md-6 nopadding">
+                        <label for="inputAssunto">Senha</label>
+                        <input type="password" class="form-control" id="inputAssunto" placeholder="Senha" name="senha">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="inputIdade">Idade</label>
+                        <input type="number" class="form-control" id="inputIdade" placeholder="Idade" name="idade">
+                    </div>
+                    <div class="form-group col-md-10 nopadding">
+                        <label for="inputEmail">Email</label>
+                        <input type="email" class="form-control" id="inputEmail" placeholder="Email" name="email">
+                    </div>
+                    <div class="form-group col-md-6 nopadding">
+                        <label for="inputNome">Equipe</label>
+                        <input type="text" class="form-control" id="inputEquipe" placeholder="Equipe" name="equipe">
+                    </div>
+
+                    <div class="form-group col-md-6 nopadding">
+                        <label for="inputFuncao">Função</label>
+                        <input type="text" class="form-control" id="inputFuncao" placeholder="Função" name="funcao">
+                    </div>
+
+                    <div class="form-group col-md-6 nopadding">
+                        <label for="inputAtivo">Ativo</label>
+                        <input list="ativoEnum" class="form-control" id="inputAtivo" placeholder="Ativo" name="ativo">
+                        <datalist id="ativoEnum">
+                            <option value="true">
+                            <option value="false">
+                        </datalist>
+                    </div>
+
+                    <div class="form-group col-md-6 nopadding">
+                        <label for="inputPrivilegio">Privil[egio</label>
+                        <input list="privilegioEnum" class="form-control" id="inputPrivilegio" placeholder="Privilégio" name="privilegio">
+                        <datalist id="privilegioEnum">
+                            <option value="ADM">
+                            <option value="COMUM">
+                        </datalist>
+                    </div>
+                    <div class="form-group col-md-4 nopadding">
+                        <button type="submit" class="btn btn-primary">Criar Funcionario</button>
+                    </div>
+                </div>
+            </form>
+            <th:block th:include="mensagemValidacao"></th:block>
+
+            <h3>Lista de Funcionarios:</h3>
+            <table class="table table-striped table-bordered table-hover ">
+                <thead class="thead-dark">
+                <tr>
+                    <th>Código</th>
+                    <th>Nome</th>
+                    <th>Idade</th>
+                    <th>Email</th>
+                    <th>Equipe</th>
+                    <th>Função</th>
+                    <th>Ativo</th>
+                    <th>Privilégio</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="funcionario : ${funcionarios}">
+                        <td data-label="Nome"><span th:utext="${funcionario.codigo}"></span></td>
+                        <td data-label="Nome"><span th:utext="${funcionario.nome}"></span></td>
+                        <td data-label="Idade"><span th:utext="${funcionario.idade}"></span></td>
+                        <td	data-label="Email"><span th:utext="${funcionario.email}"></span></td>
+                        <td	data-label="Equipe"><span th:utext="${funcionario.equipe}"></span></td>
+                        <td	data-label="Funcao"><span th:utext="${funcionario.funcao}"></span></td>
+                        <td	data-label="Ativo"><span th:utext="${funcionario.ativo}"></span></td>
+                        <td data-label="Privilegio"><span th:utext="${funcionario.privilegio}"></span></td>
+                        <td data-label="Editar" class="row">
+                            <a th:href="@{/delete_funcionario(codigo=${funcionario.codigo})}" th:method="delete">
+                                <button type="button" class="btn btn-danger btn-xs btn-block btn-active col-md-6">
+                                        <i	class="fa fa-trash"	style="cursor: pointer"></i>
+                                </button>
+                            </a>
+                            <button type="button" class="btn btn-primary btn-xs btn-block btn-active col-md-6" data-toggle="modal"  th:attr="data-target='#update_'+${funcionario.codigo}">
+                                <i class="fa fa-pencil-square-o" aria-hidden="true" style="cursor: pointer"></i>
+                            </button>
+                        </td>
+
+
+
+                        <div class="container">
+                            <!-- Modal -->
+                            <div class="modal fade" th:id="update_+${funcionario.codigo}" role="dialog">
+                                <div class="modal-dialog">
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Atualizar Funcionário</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form th:action="@{/update/{codigo}(codigo=${funcionario.codigo})}" th:object="${funcionario}" method="post">
+                                                <div class="row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="inputNomeModal">Nome</label>
+                                                        <input type="text" class="form-control" id="inputNomeModal" placeholder="Nome" name="nome" th:value="${funcionario.nome}">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="inputAssuntoModal">Senha</label>
+                                                        <input type="password" class="form-control" id="inputAssuntoModal" placeholder="Senha" name="senha" th:value="${funcionario.senha}">
+                                                    </div>
+                                                    <div class="form-group col-md-2">
+                                                        <label for="inputIdadeModal">Idade</label>
+                                                        <input type="number" class="form-control" id="inputIdadeModal" placeholder="Idade" name="idade" th:value="${funcionario.idade}">
+                                                    </div>
+                                                    <div class="form-group col-md-10">
+                                                        <label for="inputEmail">Email</label>
+                                                        <input type="email" class="form-control" id="inputEmailModal" placeholder="Email" name="email" th:value="${funcionario.email}">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="inputNomeModal">Equipe</label>
+                                                        <input type="text" class="form-control" id="inputEquipeModal" placeholder="Equipe" name="equipe" th:value="${funcionario.equipe}">
+                                                    </div>
+
+                                                    <div class="form-group col-md-6">
+                                                        <label for="inputFuncaoModal">Função</label>
+                                                        <input type="text" class="form-control" id="inputFuncaoModal" placeholder="Função" name="funcao" th:value="${funcionario.funcao}">
+                                                    </div>
+
+                                                    <div class="form-group col-md-6">
+                                                        <label for="inputAtivoModal">Ativo</label>
+                                                        <input list="ativoEnumMD" class="form-control" id="inputAtivoModal" placeholder="Ativo" name="ativo" th:value="${funcionario.ativo}">
+                                                        <datalist id="ativoEnumMD">
+                                                            <option value="true">
+                                                            <option value="false">
+                                                        </datalist>
+                                                    </div>
+
+                                                    <div class="form-group col-md-6">
+                                                        <label for="inputPrivilegioModal">Privilégio</label>
+                                                        <input list="privilegioEnumMD" class="form-control" id="inputPrivilegioModal" placeholder="Privilégio" name="privilegio" th:value="${funcionario.privilegio}">
+                                                        <datalist id="privilegioEnumMD">
+                                                            <option value="ADM">
+                                                            <option value="COMUM">
+                                                        </datalist>
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <button type="submit" class="btn btn-primary">Atualizar Funcionario</button>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+
+                    </tr>
+                    <tr th:if="${funcionarios.empty}">
+                        <td	colspan="8"	class="bg-danger">Nenhum funcionário cadastrado.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>

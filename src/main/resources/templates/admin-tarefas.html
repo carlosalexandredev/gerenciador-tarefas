@@ -1,0 +1,161 @@
+<html xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>Painel de Tarefas</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="../static/css/index.css" th:href="@{/css/index.css}" rel="stylesheet"/>
+    <script src="https://code.jquery.com/jquery.min.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+</head>
+
+<body class="home">
+<div class="container-fluid display-table">
+    <div class="row display-table-row">
+        <div class="col-md-2 col-sm-1 hidden-xs display-table-cell v-align box" id="navigation">
+            <div class="logo">
+                <a hef="home.html"><img src="https://pngimage.net/wp-content/uploads/2018/05/cubo-azul-png.png" alt="merkery_logo" class="hidden-xs hidden-sm">
+                    <img src="https://pngimage.net/wp-content/uploads/2018/05/cubo-azul-png.png" alt="merkery_logo" class="visible-xs visible-sm circle-logo">
+                </a>
+            </div>
+            <div class="navi">
+                <ul>
+                    <li class="active"><a th:href="@{/admin-tarefas}"><i class="fa fa-list-alt" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Tarefas</span></a></li>
+                    <li><a th:href="@{/admin-funcionario}"><i class="fa fa-users" aria-hidden="true"></i></i><span class="hidden-xs hidden-sm">Funcionários</span></a></li>
+                    <li><a th:href="@{/funcionario}"><i class="fa fa-eye" aria-hidden="true"></i></i><span class="hidden-xs hidden-sm">Visão Funcionário</span></a></li>
+                    <li style="background-color: #a12323"><a th:href="@{/logout}"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Sair</span></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="user-dashboard">
+            <h1>Bem vindo</p></h1>
+            <h3>Nova Tarefa:</h3>
+            <form th:action="@{/salva-tarefa}" th:object="${tarefa}" method="post">
+                <div class="row">
+                    <div class="form-group col-md-6 nopadding">
+                        <label for="inputNome">Nome</label>
+                        <input type="text" class="form-control" id="inputNome" placeholder="Nome" name="nome">
+                    </div>
+                    <div class="form-group col-md-6 nopadding">
+                        <label for="inputAssunto">Assunto</label>
+                        <input type="text" class="form-control" id="inputAssunto" placeholder="Assunto" name="assunto">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="inputDescricao">Descrição</label>
+                        <input type="text" class="form-control" id="inputDescricao" placeholder="Descrição" name="descricao">
+                    </div>
+                    <div class="form-group col-md-8 nopadding">
+                        <label for="inputUsuario"> ID Usuário</label>
+                        <input type="text" class="form-control" id="inputUsuario" placeholder="Usuário" name="usuario">
+                    </div>
+                    <div class="form-group col-md-4 nopadding">
+                        <label for="inputDate">Data Validade</label>
+                        <input type="date" class="form-control" id="inputDate" name="dataVencimento">
+                    </div>
+                    <div class="form-group col-md-4 nopadding">
+                        <button type="submit" class="btn btn-primary">Criar Tarefa</button>
+                    </div>
+                </div>
+            </form>
+            <th:block th:include="mensagemValidacao"></th:block>
+
+            <h3>Lista de Tarefas:</h3>
+            <table class="table table-striped table-bordered table-hover ">
+                <thead class="thead-dark">
+                <tr>
+                    <th>Código</th>
+                    <th>Nome</th>
+                    <th>Assunto</th>
+                    <th>Descrição</th>
+                    <th>Data Vencimento</th>
+                    <th>Usuário</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="tarefa : ${tarefas}">
+                    <td data-label="Codigo"><span th:utext="${tarefa.codigo}"></span></td>
+                    <td data-label="Nome"><span th:utext="${tarefa.nome}"></span></td>
+                    <td data-label="Assunto"><span th:utext="${tarefa.assunto}"></span></td>
+                    <td	data-label="Descrição"><span th:utext="${tarefa.descricao}"></span></td>
+                    <td	data-label="Data Vencimento"><span th:utext="${tarefa.dataVencimento}"></span></td>
+                    <td	data-label="Usuario"><span th:utext="${tarefa.usuario.nome}"></span></td>
+                    <td data-label="Editar" class="row">
+                        <a th:href="@{/delete_tarefa(codigo=${tarefa.codigo})}" th:method="delete">
+                            <button type="button" class="btn btn-danger btn-xs btn-block btn-active col-md-6">
+                                <i	class="fa fa-trash"	style="cursor: pointer"></i>
+                            </button>
+                        </a>
+                        <button type="button" class="btn btn-primary btn-xs btn-block btn-active col-md-6" data-toggle="modal"  th:attr="data-target='#update_'+${tarefa.codigo}">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true" style="cursor: pointer"></i>
+                        </button>
+                    </td>
+
+
+
+                    <div class="container">
+                        <!-- Modal -->
+                        <div class="modal fade" th:id="update_+${tarefa.codigo}" role="dialog">
+                            <div class="modal-dialog">
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">Atualizar Tarefa</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form th:action="@{/update-tarefa/{codigo}(codigo=${tarefa.codigo})}" th:object="${tarefa}" method="post">
+                                                <div class="row">
+                                                    <div class="form-group col-md-6 nopadding">
+                                                        <label for="inputNomeMD">Nome</label>
+                                                        <input type="text" class="form-control" id="inputNomeMD" placeholder="Nome" name="nome" th:value="${tarefa.nome}">
+                                                    </div>
+                                                    <div class="form-group col-md-6 nopadding">
+                                                        <label for="inputAssuntoMD">Assunto</label>
+                                                        <input type="text" class="form-control" id="inputAssuntoMD" placeholder="Assunto" name="assunto" th:value="${tarefa.assunto}">
+                                                    </div>
+                                                    <div class="form-group col-md-12">
+                                                        <label for="inputDescricaoMD">Descrição</label>
+                                                        <input type="text" class="form-control" id="inputDescricaoMD" placeholder="Descrição" name="descricao" th:value="${tarefa.descricao}">
+                                                    </div>
+                                                    <div class="form-group col-md-8 nopadding">
+                                                        <label for="inputUsuarioMD"> ID Usuário</label>
+                                                        <input type="text" class="form-control" id="inputUsuarioMD" placeholder="Usuário" name="usuario" th:value="${tarefa.usuario.codigo}">
+                                                    </div>
+                                                    <div class="form-group col-md-4 nopadding">
+                                                        <label for="inputDateMD">Data Validade</label>
+                                                        <input type="date" class="form-control" id="inputDateMD" name="dataVencimento" th:value="${tarefa.dataVencimento}">
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <button type="submit" class="btn btn-primary">Atualizar Funcionario</button>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                                                    </div>
+                                                </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </tr>
+                <tr th:if="${tarefas.empty}">
+                    <td	colspan="8"	class="bg-danger">Nenhuma tarefa cadastrado.</td>
+                </tr>
+            </tbody>
+        </table>
+
+
+
+
+
+
+        </div>
+    </div>
+</div>
+</body>
+
